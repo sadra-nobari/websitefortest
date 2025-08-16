@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafc;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .about-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .team-section {
+      margin-top: 30px;
+    }
+
+    .team {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .member {
+      flex: 1 1 250px;
+      background: #f0f3ff;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .member:hover {
+      transform: translateY(-5px);
+    }
+
+    .member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 3px solid #6c5ce7;
+    }
+
+    .member h3 {
+      margin: 8px 0 4px;
+      font-size: 1.1rem;
+      color: #2d3436;
+    }
+
+    .member p {
+      font-size: 0.9rem;
+      color: #636e72;
+    }
+  </style>
+</head>
+<body>
+  <div class="about-container">
+    <h1>About Us</h1>
+    <p>
+      Welcome to <strong>My Django Website</strong> 🎉  
+      We are passionate developers dedicated to building modern, fast, and user-friendly web applications.  
+      Our mission is to make technology simple, powerful, and accessible for everyone.
+    </p>
+
+    <div class="team-section">
+      <h2>Meet Our Team</h2>
+      <div class="team">
+        <div class="member">
+          <img src="https://via.placeholder.com/100" alt="Member 1">
+          <h3>Alex Johnson</h3>
+          <p>Founder & Backend Developer</p>
+        </div>
+        <div class="member">
+          <img src="https://via.placeholder.com/100" alt="Member 2">
+          <h3>Sara Smith</h3>
+          <p>UI/UX Designer</p>
+        </div>
+        <div class="member">
+          <img src="https://via.placeholder.com/100" alt="Member 3">
+          <h3>Michael Lee</h3>
+          <p>Frontend Engineer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

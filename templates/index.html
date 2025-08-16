@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NovaNote — Focused Notes, Zero Clutter</title>
+  <meta name="description" content="NovaNote is a minimal, fast, and secure note‑taking app that helps you think clearly and move faster." />
+  <style>
+    /* ===== CSS RESET (lightweight) ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    body,h1,h2,h3,h4,p,figure,blockquote,dl,dd{margin:0}
+    ul[role='list'],ol[role='list']{list-style:none;margin:0;padding:0}
+    html:focus-within{scroll-behavior:smooth}
+    body{min-height:100vh;text-rendering:optimizeLegibility;line-height:1.6}
+    img,picture,svg{max-width:100%;display:block}
+    input,button,textarea,select{font:inherit}
+    :root{--bg:#0f1221;--panel:#121632;--muted:#8a90b2;--text:#e6e9ff;--brand:#7c5cff;--brand-2:#00e0a4;--ring:0 0 0 .2rem color-mix(in oklab, var(--brand) 40%, transparent);--radius:18px}
+    @media (prefers-color-scheme: light){
+      :root{--bg:#f6f8ff;--panel:#ffffff;--muted:#5c6180;--text:#10132a;--brand:#6a5cff;--brand-2:#00b38f}
+    }
+    body{background:radial-gradient(1200px 800px at 80% -10%, color-mix(in oklab, var(--brand) 18%, transparent), transparent),radial-gradient(1200px 800px at -10% 10%, color-mix(in oklab, var(--brand-2) 18%, transparent), transparent),var(--bg);color:var(--text);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji}
+    a{color:inherit;text-decoration:none}
+    .container{width:100%;max-width:1200px;margin-inline:auto;padding:24px}
+
+    /* ===== Top Nav ===== */
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+    .brand-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;color:white;font-size:.9rem;box-shadow:0 10px 30px -12px var(--brand)}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav a{opacity:.9}
+    .nav a:hover{opacity:1}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1rem;border-radius:999px;border:1px solid color-mix(in oklab, var(--text) 18%, transparent);background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 90%, transparent), color-mix(in oklab, var(--panel) 100%, transparent));backdrop-filter:saturate(1.2) blur(6px);box-shadow:inset 0 -1px 0 rgba(255,255,255,.06), 0 10px 30px -15px rgba(0,0,0,.4)}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));border:none;color:white;box-shadow:0 12px 30px -10px color-mix(in oklab, var(--brand) 40%, transparent)}
+
+    /* ===== Hero ===== */
+    .hero{padding:56px 0 36px}
+    .hero-inner{display:grid;grid-template-columns:1.08fr .92fr;gap:36px;align-items:center}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border-radius:999px;font-size:.85rem;border:1px solid color-mix(in oklab, var(--text) 16%, transparent);color:var(--muted);background:color-mix(in oklab, var(--panel) 70%, transparent)}
+    .title{font-size:clamp(2rem,4vw,3.2rem);line-height:1.1;letter-spacing:-.02em;margin-top:.9rem}
+    .subtitle{color:var(--muted);margin-top:12px;max-width:56ch}
+    .cta-row{display:flex;gap:12px;align-items:center;margin-top:24px}
+    .micro{font-size:.85rem;color:var(--muted)}
+
+    .hero-card{background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 90%, transparent), color-mix(in oklab, var(--panel) 98%, transparent));border:1px solid color-mix(in oklab, var(--text) 12%, transparent);border-radius:var(--radius);padding:22px;box-shadow:0 20px 40px -20px rgba(0,0,0,.45)}
+    .mock{height:360px;border-radius:14px;background:
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
+      repeating-linear-gradient(180deg, transparent 0 36px, rgba(255,255,255,.02) 36px 37px),
+      linear-gradient(135deg, color-mix(in oklab, var(--brand) 16%, transparent), transparent 60%);
+      border:1px solid color-mix(in oklab, var(--text) 14%, transparent);position:relative;overflow:hidden}
+    .chip{position:absolute;inset:auto auto 16px 16px;display:flex;gap:8px}
+    .chip span{padding:.35rem .6rem;border-radius:999px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(6px);font-size:.8rem}
+
+    /* ===== Feature Grid ===== */
+    .section{padding:56px 0}
+    .section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;margin-bottom:10px}
+    .muted{color:var(--muted)}
+    .grid{display:grid;gap:18px;grid-template-columns:repeat(12,1fr)}
+    .card{grid-column:span 4;background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 90%, transparent), color-mix(in oklab, var(--panel) 98%, transparent));border:1px solid color-mix(in oklab, var(--text) 12%, transparent);border-radius:var(--radius);padding:22px;box-shadow:0 14px 30px -18px rgba(0,0,0,.5)}
+    .card h3{font-size:1.15rem;margin-bottom:6px}
+    .kicker{font-size:.85rem;color:var(--muted);margin-bottom:6px}
+
+    /* ===== Testimonial ===== */
+    .quote{display:flex;gap:18px;align-items:flex-start;background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 92%, transparent), color-mix(in oklab, var(--panel) 98%, transparent));border:1px solid color-mix(in oklab, var(--text) 12%, transparent);border-radius:var(--radius);padding:22px}
+    .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 10px 30px -12px var(--brand)}
+
+    /* ===== Pricing ===== */
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .plan{background:linear-gradient(180deg, color-mix(in oklab, var(--panel) 90%, transparent), color-mix(in oklab, var(--panel) 98%, transparent));border:1px solid color-mix(in oklab, var(--text) 12%, transparent);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;gap:8px}
+    .price{font-size:2rem;font-weight:800}
+    .plan ul{padding-left:1rem}
+
+    /* ===== Footer ===== */
+    footer{padding:44px 0;color:var(--muted);border-top:1px solid color-mix(in oklab, var(--text) 12%, transparent);margin-top:36px}
+    footer .row{display:flex;align-items:center;justify-content:space-between;gap:18px}
+
+    /* ===== Responsive ===== */
+    @media (max-width: 980px){
+      .hero-inner{grid-template-columns:1fr}
+      .card{grid-column:span 6}
+      .pricing{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .nav-links{display:none}
+      .container{padding:18px}
+      .card{grid-column:span 12}
+      .cta-row{flex-wrap:wrap}
+    }
+  </style>
+</head>
+<body>
+  <header class="container nav">
+    <a class="brand" href="#">
+      <span class="brand-mark">N</span>
+      <span>NovaNote</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn" href="#download">Download</a>
+    </nav>
+  </header>
+
+  <main class="container hero">
+    <div class="hero-inner">
+      <div>
+        <div class="badge">🚀 New: Real‑time sync across devices</div>
+        <h1 class="title">Focused notes, zero clutter.</h1>
+        <p class="subtitle">NovaNote is a minimal, fast, and secure note‑taking app that helps you capture ideas and get back to work. No ads. No distractions. Just flow.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#download">Get NovaNote</a>
+          <a class="btn" href="#features">See Features</a>
+        </div>
+        <p class="micro" style="margin-top:10px">Free plan available • Works offline • End‑to‑end encrypted</p>
+      </div>
+      <div class="hero-card">
+        <div class="mock">
+          <div class="chip"><span>#inbox</span><span>#ideas</span><span>#todo</span></div>
+        </div>
+        <p class="micro" style="margin-top:10px">Preview of the distraction‑free editor.</p>
+      </div>
+    </div>
+  </main>
+
+  <section id="features" class="container section">
+    <h2>Everything you need, nothing you don't</h2>
+    <p class="muted">A carefully chosen set of features that keeps you in the zone.</p>
+
+    <div class="grid" style="margin-top:18px">
+      <article class="card">
+        <p class="kicker">Speed</p>
+        <h3>Instant launch</h3>
+        <p>Open and type in under a second. No heavy UI, just your thoughts.</p>
+      </article>
+      <article class="card">
+        <p class="kicker">Organization</p>
+        <h3>Tags & smart search</h3>
+        <p>Use #tags and filters to find anything fast, even offline.</p>
+      </article>
+      <article class="card">
+        <p class="kicker">Privacy</p>
+        <h3>End‑to‑end encryption</h3>
+        <p>Your notes are encrypted before they leave your device. Only you can read them.</p>
+      </article>
+      <article class="card">
+        <p class="kicker">Sync</p>
+        <h3>Real‑time sync</h3>
+        <p>Seamless updates across desktop, web, and mobile with conflict‑free editing.</p>
+      </article>
+      <article class="card">
+        <p class="kicker">Writing</p>
+        <h3>Markdown support</h3>
+        <p>Headings, lists, code blocks—format as you write. Export to PDF or HTML.</p>
+      </article>
+      <article class="card">
+        <p class="kicker">Focus</p>
+        <h3>Distraction‑free mode</h3>
+        <p>Hide UI chrome and spotlight your content to stay in flow.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="quote">
+      <div class="avatar"></div>
+      <div>
+        <p>“NovaNote nails the balance between minimalism and power. It’s the first app that actually gets out of my way.”</p>
+        <p class="micro">— Alex R., Product Designer</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="container section">
+    <h2>Simple pricing</h2>
+    <p class="muted">Start free. Upgrade when you’re ready.</p>
+
+    <div class="pricing" style="margin-top:18px">
+      <div class="plan">
+        <h3>Free</h3>
+        <div class="price">$0</div>
+        <ul>
+          <li>Unlimited notes</li>
+          <li>Local backups</li>
+          <li>Basic search</li>
+        </ul>
+        <a class="btn" href="#download">Get Started</a>
+      </div>
+      <div class="plan" style="outline: var(--ring)">
+        <h3>Pro</h3>
+        <div class="price">$6<span class="micro">/mo</span></div>
+        <ul>
+          <li>All Free features</li>
+          <li>End‑to‑end encryption</li>
+          <li>Real‑time sync</li>
+          <li>PDF & HTML export</li>
+        </ul>
+        <a class="btn btn-primary" href="#download">Upgrade</a>
+      </div>
+      <div class="plan">
+        <h3>Team</h3>
+        <div class="price">$12<span class="micro">/user</span></div>
+        <ul>
+          <li>Shared workspaces</li>
+          <li>Role‑based access</li>
+          <li>Comments & mentions</li>
+        </ul>
+        <a class="btn" href="#contact">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="container section">
+    <h2>FAQ</h2>
+    <details>
+      <summary>Do I need an account to use NovaNote?</summary>
+      <p>No. You can use the Free plan entirely offline without creating an account.</p>
+    </details>
+    <details>
+      <summary>How does encryption work?</summary>
+      <p>Pro and Team plans encrypt notes client‑side with keys only you control. Our servers never see your content.</p>
+    </details>
+    <details>
+      <summary>Can I import from other apps?</summary>
+      <p>Yes, import from Markdown, TXT, or JSON with one click.</p>
+    </details>
+  </section>
+
+  <footer class="container">
+    <div class="row">
+      <div class="brand"><span class="brand-mark">N</span><span>NovaNote</span></div>
+      <p>© <span id="year"></span> NovaNote, Inc. • <a href="#">Privacy</a> • <a href="#">Terms</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
